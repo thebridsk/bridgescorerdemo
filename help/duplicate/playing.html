@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="description" content="Documentation for Bridge Score Keeper">
+
+
+    <link rel="icon" href="../images/favicon.png" type="image/png">
+
+    <title>Playing Duplicate :: BridgeScorer</title>
+
+    
+    <link href="../css/nucleus.css?1595110360" rel="stylesheet">
+    <link href="../css/fontawesome-all.min.css?1595110360" rel="stylesheet">
+    <link href="../css/hybrid.css?1595110360" rel="stylesheet">
+    <link href="../css/featherlight.min.css?1595110360" rel="stylesheet">
+    <link href="../css/perfect-scrollbar.min.css?1595110360" rel="stylesheet">
+    <link href="../css/auto-complete.css?1595110360" rel="stylesheet">
+    <link href="../css/atom-one-dark-reasonable.css?1595110360" rel="stylesheet">
+    <link href="../css/theme.css?1595110360" rel="stylesheet">
+    <link href="../css/hugo-theme.css?1595110360" rel="stylesheet">
+    
+    <link href="../css/theme-mine.css?1595110360" rel="stylesheet">
+    
+    
+
+    <script src="../js/jquery-3.3.1.min.js?1595110360"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="../duplicate/playing.html">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="http://github.com/thebridsk/bridgescorer">
+    <p class="suits">BridgeScorer
+	    <br/>
+		<span style="color: black; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&spades;</span>
+		<span style="color: red; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&hearts;</span>
+		<span style="color: red; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&diams;</span>
+		<span style="color: black; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&clubs;</span>
+	</p>
+</a>
+
+
+
+
+<p>Version<br>
+<span title="2.1.3-d766286786baa6365255c14c20c87e6d7b9d41c4">2.1.3</span>
+</p>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../js/lunr.min.js?1595110360"></script>
+<script type="text/javascript" src="../js/auto-complete.js?1595110360"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="../js/search.js?1595110360"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/introduction.html" title="Introduction" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../introduction.html">
+          Introduction
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/home.html" title="Home" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../home.html">
+          Home
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/duplicate.html" title="Duplicate" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="../duplicate.html">
+          Duplicate
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/playing.html" title="Playing Duplicate" class="dd-item active">
+        <a href="../duplicate/playing.html">
+        Playing Duplicate
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/summary.html" title="Summary" class="dd-item ">
+        <a href="../duplicate/summary.html">
+        Summary
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/pairsuggestion.html" title="Pair Suggestion" class="dd-item ">
+        <a href="../duplicate/pairsuggestion.html">
+        Pair Suggestion
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/new.html" title="New" class="dd-item ">
+        <a href="../duplicate/new.html">
+        New
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/scoreboardcomplete.html" title="Scoreboard" class="dd-item ">
+        <a href="../duplicate/scoreboardcomplete.html">
+        Scoreboard
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/boardcomplete.html" title="Board" class="dd-item ">
+        <a href="../duplicate/boardcomplete.html">
+        Board
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/table.html" title="Table" class="dd-item ">
+        <a href="../duplicate/table.html">
+        Table
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/enterscorekeepername.html" title="Enter Scorekeeper" class="dd-item ">
+        <a href="../duplicate/enterscorekeepername.html">
+        Enter Scorekeeper
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/enterothernames.html" title="Enter Other Names" class="dd-item ">
+        <a href="../duplicate/enterothernames.html">
+        Enter Other Names
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/selectscorekeepername.html" title="Select Scorekeeper" class="dd-item ">
+        <a href="../duplicate/selectscorekeepername.html">
+        Select Scorekeeper
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/selectothernames.html" title="Select Other Names" class="dd-item ">
+        <a href="../duplicate/selectothernames.html">
+        Select Other Names
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/enterhand.html" title="Enter Hand" class="dd-item ">
+        <a href="../duplicate/enterhand.html">
+        Enter Hand
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/scoreboardfromtable.html" title="Scoreboard From Table" class="dd-item ">
+        <a href="../duplicate/scoreboardfromtable.html">
+        Scoreboard From Table
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/boardfromtable.html" title="Board From Table" class="dd-item ">
+        <a href="../duplicate/boardfromtable.html">
+        Board From Table
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/finalscoreboard.html" title="Final Scoreboard" class="dd-item ">
+        <a href="../duplicate/finalscoreboard.html">
+        Final Scoreboard
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/director.html" title="Director" class="dd-item ">
+        <a href="../duplicate/director.html">
+        Director
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/statistics.html" title="Statistics" class="dd-item ">
+        <a href="../duplicate/statistics.html">
+        Statistics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago.html" title="Chicago" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../chicago.html">
+          Chicago
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/list.html" title="Chicago List" class="dd-item ">
+        <a href="../chicago/list.html">
+        Chicago List
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/four.html" title="4 Player" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../chicago/four.html">
+          4 Player
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/four/names4.html" title="Names 4 Players" class="dd-item ">
+        <a href="../chicago/four/names4.html">
+        Names 4 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/four/selectnames4.html" title="Selecting Names 4 Players" class="dd-item ">
+        <a href="../chicago/four/selectnames4.html">
+        Selecting Names 4 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/five.html" title="5 Player" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../chicago/five.html">
+          5 Player
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/five/names5.html" title="Names 5 Players" class="dd-item ">
+        <a href="../chicago/five/names5.html">
+        Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/five/selectnames5.html" title="Selecting Names 5 Players" class="dd-item ">
+        <a href="../chicago/five/selectnames5.html">
+        Selecting Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/fastfair.html" title="5 Player Fair" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../chicago/fastfair.html">
+          5 Player Fair
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastfair/names5.html" title="Names 5 Players" class="dd-item ">
+        <a href="../chicago/fastfair/names5.html">
+        Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastfair/selectnamesfair.html" title="Selecting Names Fair" class="dd-item ">
+        <a href="../chicago/fastfair/selectnamesfair.html">
+        Selecting Names Fair
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/fastsimple.html" title="5 Player Simple" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../chicago/fastsimple.html">
+          5 Player Simple
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastsimple/names5.html" title="Names 5 Players" class="dd-item ">
+        <a href="../chicago/fastsimple/names5.html">
+        Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastsimple/selectnamessimple.html" title="Selecting Names Simple" class="dd-item ">
+        <a href="../chicago/fastsimple/selectnamessimple.html">
+        Selecting Names Simple
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/hand.html" title="Entering a Hand" class="dd-item ">
+        <a href="../chicago/hand.html">
+        Entering a Hand
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/summary.html" title="Summary" class="dd-item ">
+        <a href="../chicago/summary.html">
+        Summary
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/summaryquintet.html" title="Summary Fast Rotation" class="dd-item ">
+        <a href="../chicago/summaryquintet.html">
+        Summary Fast Rotation
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/rubber.html" title="Rubber" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../rubber.html">
+          Rubber
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/list.html" title="List" class="dd-item ">
+        <a href="../rubber/list.html">
+        List
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/names.html" title="Names" class="dd-item ">
+        <a href="../rubber/names.html">
+        Names
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/hand.html" title="Enter Hand" class="dd-item ">
+        <a href="../rubber/hand.html">
+        Enter Hand
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/summary.html" title="Summary" class="dd-item ">
+        <a href="../rubber/summary.html">
+        Summary
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      
+
+
+ 
+<ul>
+<li>
+<a class="padding" href="https://github.com/thebridsk/bridgescorer"><i class="fab fa-github"></i> GitHub Repo</a>
+</ul>
+
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                  
+                  
+                  
+                  <div id="top-github-link">
+                    <a class="github-link" title='Edit this page' href="https://github.com/thebridsk/bridgescorerdocs/tree/master/docs/content/duplicate/playing.md" target="blank">
+                      <i class="fas fa-code-branch"></i>
+                      <span id="top-github-link-text">Edit this page</span>
+                    </a>
+                  </div>
+                  
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../'>BridgeScorer</a> > <a href='../duplicate.html'>Duplicate</a> > Playing Duplicate
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#start-browser-on-tablets">Start Browser on Tablets</a></li>
+    <li><a href="#starting-a-new-match">Starting a New Match</a></li>
+    <li><a href="#select-movement-and-boards">Select Movement and Boards</a></li>
+    <li><a href="#starting-on-a-table">Starting on a Table</a>
+      <ul>
+        <li><a href="#first-round">First Round</a></li>
+        <li><a href="#later-rounds">Later Rounds</a></li>
+      </ul>
+    </li>
+    <li><a href="#entering-the-hand-results">Entering the Hand Results</a></li>
+    <li><a href="#choosing-the-next-hand-in-round">Choosing the Next Hand in Round</a></li>
+    <li><a href="#completing-the-round">Completing the Round</a></li>
+    <li><a href="#completing-the-match">Completing the Match</a></li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Playing Duplicate
+            </h1>
+          
+
+        
+
+
+
+    <h2>Table of Contents</h2>
+    <nav id="TableOfContents">
+  <ul>
+    <li><a href="#start-browser-on-tablets">Start Browser on Tablets</a></li>
+    <li><a href="#starting-a-new-match">Starting a New Match</a></li>
+    <li><a href="#select-movement-and-boards">Select Movement and Boards</a></li>
+    <li><a href="#starting-on-a-table">Starting on a Table</a>
+      <ul>
+        <li><a href="#first-round">First Round</a></li>
+        <li><a href="#later-rounds">Later Rounds</a></li>
+      </ul>
+    </li>
+    <li><a href="#entering-the-hand-results">Entering the Hand Results</a></li>
+    <li><a href="#choosing-the-next-hand-in-round">Choosing the Next Hand in Round</a></li>
+    <li><a href="#completing-the-round">Completing the Round</a></li>
+    <li><a href="#completing-the-match">Completing the Match</a></li>
+  </ul>
+</nav>
+
+
+<h2 id="start-browser-on-tablets">Start Browser on Tablets</h2>
+<p>The first browser to connect will show the <a href="../home.html">home page</a>.</p>
+<p><img src="../images/gen/Duplicate/HomePage.png" alt="HomePage"></p>
+<p>This page shows the URL address to use in the other browsers to connect to the server.</p>
+<p>The URL address can always be displayed from any browser by hitting the
+<svg class="MuiSvgIcon-root" focusable="false" viewBox="0 0 24 24" aria-hidden="true" role="presentation" width="20" height="20" style="background-color: rgb(64,128,64);">
+<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="white"></path>
+</svg>
+icon in the top right of the page.</p>
+<h2 id="starting-a-new-match">Starting a New Match</h2>
+<p>There are two ways to start of a new match.  The first is to hit the <strong>New Duplciate</strong> button on the <a href="../home.html">home page</a>.</p>
+<p>The other is to hit the <strong>List Duplicate</strong> button on the <a href="../home.html">home page</a>, then hit the <strong>New</strong> button on the <a href="summary.html">summary page</a>.</p>
+<h2 id="select-movement-and-boards">Select Movement and Boards</h2>
+<p><img src="../images/gen/Duplicate/NewDuplicate.png" alt="NewDuplicate"></p>
+<p>Find the movement that should be used in the match, and then hit the Boards button that should be used with the movements.</p>
+<p>This will then show the <a href="scoreboardcomplete.html">Complete Scoreboard page</a>.  There will be no names or results in the page.</p>
+<h2 id="starting-on-a-table">Starting on a Table</h2>
+<p>Take a tablet to a table, and from the <a href="scoreboardcomplete.html">Complete Scoreboard page</a></p>
+<p><img src="../images/gen/Duplicate/Scoreboard.png" alt="Scoreboard"></p>
+<p>hit the <strong>Table n</strong> button, where n corresponds to the table you are at.</p>
+<p>This shows</p>
+<p><img src="../images/gen/Duplicate/TableRound1.png" alt="Table"></p>
+<p>On the very first round there will not be any names in the <strong>NS</strong> or <strong>EW</strong> columns.</p>
+<p>Hitting the <strong>1</strong> button under the <strong>Boards</strong> column will allow entering of names of the players at the table.  In later rounds the players are already determined, and only the position on the table may be selected.</p>
+<h3 id="first-round">First Round</h3>
+<p><img src="../images/gen/Duplicate/TableEnterNamesSK.png" alt="Enter Scorekeeper"></p>
+<p>On the first round, the <a href="enterscorekeepername.html">Enter Scorekeeper&rsquo;s name</a> is displayed.  Select or enter the scorekeeper&rsquo;s name in the input field.  To see the list of known names, hit the triangle at the right of the input field.  Once the scorekeeper has been identified, select the position the scorekeeper has on the table.  Then hit the <strong>OK</strong> button.</p>
+<p><img src="../images/gen/Duplicate/TableEnterNamesOthers.png" alt="TableEnterNamesOthers"></p>
+<p>Enter the names of the other players in their corresponding position on the table.  Then hit the <strong>OK</strong> button.</p>
+<h3 id="later-rounds">Later Rounds</h3>
+<p><img src="../images/gen/Duplicate/SelectSK.png" alt="SelectSK"></p>
+<p>Select the scorekeeper&rsquo;s name and the position they have at the table.  Then hit the <strong>OK</strong> button.</p>
+<p><img src="../images/gen/Duplicate/SelectNames.png" alt="SelectNames"></p>
+<p>This shows the players that are playing this round.  The scorekeeper&rsquo;s partner is already identified.  The other two players, the opponents of the scorekeeper, are displayed.  If they are not correct, ask them to switch or hit either the <strong><span style="white-space: nowrap;">Swap ⇄</span></strong> buttons or the <strong><span style="white-space: nowrap;">Swap ⇆</span></strong> buttons.</p>
+<p>When the players are correct, hit the <strong>OK</strong> button.</p>
+<h2 id="entering-the-hand-results">Entering the Hand Results</h2>
+<p><img src="../images/gen/Duplicate/EnterHand.png" alt="EnterHand"></p>
+<p>Select the contract by hitting the buttons that represent the number of tricks, the suit, doubled, and declarer.  Then select whether the contract was made or went down, then indicate the number of tricks it went down, or were made.</p>
+<p>Examples: 4 spades making only 9 tricks would be <strong>Down</strong> <strong>1</strong>, while making 11 tricks is <strong>Made</strong> <strong>5</strong>.</p>
+<h2 id="choosing-the-next-hand-in-round">Choosing the Next Hand in Round</h2>
+<p><img src="../images/gen/Duplicate/BoardFromTable.png" alt="BoardFromTable"></p>
+<p>This shows the results of the selected board, the green board button.  The played and unplayed boards are also identified.</p>
+<p>To play the next hand in the round, hit the board button that corresponds to the board that will be played.</p>
+<h2 id="completing-the-round">Completing the Round</h2>
+<p>When a round is finished, the <strong>Scoreboard</strong> button can be hit to go to the <a href="scoreboardfromtable.html">Scoreboard from Table page</a>.  From here, if the tablet is staying on the table, then the <strong>Table n</strong> button is hit to start the next round.</p>
+<p>If the tablet is moving to a new table, then the <strong>Complete Scoreboard</strong> button is hit, followed by the <strong>Table n</strong> button is hit for the new table.</p>
+<h2 id="completing-the-match">Completing the Match</h2>
+<p>When the match is finished, all hands on all boards played, then going to the <a href="finalscoreboard.html">Complete Scoreboard</a> will show the results of the match.</p>
+<p><img src="../images/gen/Duplicate/FinalScoreboard.png" alt="FinalScoreboard"></p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../duplicate.html" title="Duplicate"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../duplicate/summary.html" title="Summary" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../js/clipboard.min.js?1595110360"></script>
+    <script src="../js/perfect-scrollbar.min.js?1595110360"></script>
+    <script src="../js/perfect-scrollbar.jquery.min.js?1595110360"></script>
+    <script src="../js/jquery.sticky.js?1595110360"></script>
+    <script src="../js/featherlight.min.js?1595110360"></script>
+    <script src="../js/highlight.pack.js?1595110360"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../js/modernizr.custom-3.6.0.js?1595110360"></script>
+    <script src="../js/learn.js?1595110360"></script>
+    <script src="../js/hugo-learn.js?1595110360"></script>
+
+    <link href="../mermaid/mermaid.css?1595110360" rel="stylesheet" />
+    <script src="../mermaid/mermaid.js?1595110360"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

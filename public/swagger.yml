@@ -1,0 +1,3708 @@
+openapi: 3.0.1
+info:
+  title: Duplicate Bridge Scorekeeper
+  description: "Scorekeeper for a Duplicate bridge, Chicago bridge, and Rubber bridge."
+  termsOfService: /public/termsOfService.html
+  contact:
+    name: The Bridge Scorekeeper
+    url: https://github.com/thebridsk/bridgescorer
+    email: ""
+  license:
+    name: MIT
+    url: /public/license.html
+  version: v1
+servers:
+- url: http://loopback:8080/v1/
+- url: ws://loopback:8080/v1/
+security: []
+tags:
+- name: Duplicate
+  description: Duplicate bridge operations
+- name: Chicago
+  description: Chicage bridge operations
+- name: Rubber
+  description: Rubber bridge operations
+- name: Server
+  description: Server operations
+paths:
+  /sse/chicagos/{chiId}:
+    get:
+      tags:
+      - Chicago
+      summary: BridgeScorer server set event on a chicago match
+      operationId: MonitorSSEChicago
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Server sent event stream starting
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /sse/duplicates/{dupId}:
+    get:
+      tags:
+      - Duplicate
+      summary: BridgeScorer server set event on a duplicate match
+      operationId: MonitorSSE
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Server sent event stream starting
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /ws:
+    get:
+      tags:
+      - Server
+      summary: "BridgeScorer websocket, protocol: WS, WSS"
+      operationId: MonitorWebserviceroute
+      responses:
+        "101":
+          description: Switching to websocket protocol
+  /sse/rubbers/{rubId}:
+    get:
+      tags:
+      - Rubber
+      summary: BridgeScorer server set event on a rubber match
+      operationId: MonitorSSERubber
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Server sent event stream starting
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /export:
+    get:
+      tags:
+      - Server
+      summary: Export matches
+      description: "Export matches, returns a bridge store file with the matches.\
+        \  This file can be used for import."
+      operationId: exportStore
+      parameters:
+      - name: filter
+        in: query
+        description: "If present, the Ids of the items to export.  A comma separated\
+          \ list.  If omitted, all are exported."
+        allowEmptyValue: true
+        schema:
+          type: string
+        example: "M1,M2"
+      responses:
+        "200":
+          description: The exported bridge store file.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /import:
+    post:
+      tags:
+      - Server
+      summary: Import matches
+      description: Import matches from a bridge store file.  This bridge store file
+        is created by the export api call.
+      operationId: importStore
+      requestBody:
+        description: 'Properties:'
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/MultipartFile'
+            encoding:
+              zip:
+                contentType: application/octet-stream
+        required: true
+      responses:
+        "201":
+          description: The bridge store file was imported.  Summary information is
+            returned.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImportStoreData'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /diagnostics:
+    get:
+      tags:
+      - Server
+      summary: Get diagnostic information
+      description: Export diagnostic information from the server.  This consists of
+        the logs and store.
+      operationId: diagnostics
+      responses:
+        "200":
+          description: The diagnostic information as a zip file.
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/boardsets:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all boardsets
+      description: Returns a list of boardsets.
+      operationId: getBoardsets
+      responses:
+        "200":
+          description: "A list of boardsets, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/BoardSet'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a boardset
+      operationId: createBoardset
+      requestBody:
+        description: the boardset to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoardSet'
+      responses:
+        "201":
+          description: The boardset was created
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardSet'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/boardsets/{boardsetId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the boardset by ID
+      description: Returns the specified boardset.
+      operationId: getBoardsetById
+      parameters:
+      - name: boardsetId
+        in: path
+        description: ID of the boardset to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A boardset, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BoardSet'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a boardset
+      description: "The boardset given in the body replaces the boardset with the\
+        \ specified boardsetId, the id field in the given boardset is set to boardsetId"
+      operationId: updateBoardset
+      parameters:
+      - name: boardsetId
+        in: path
+        description: ID of the boardset to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: the boardset to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BoardSet'
+      responses:
+        "204":
+          description: The boardset was updated
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a boardset by ID
+      operationId: deleteBoardsetById
+      parameters:
+      - name: boardsetId
+        in: path
+        description: ID of the boardset to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: The boardset was deleted
+  /rest/chicagos:
+    get:
+      tags:
+      - Chicago
+      summary: Get all chicago matches
+      description: Returns a list of matches.
+      operationId: getChicagos
+      responses:
+        "200":
+          description: "A list of matches, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchChicago'
+    post:
+      tags:
+      - Chicago
+      summary: Create a chicago match
+      operationId: createChicago
+      requestBody:
+        description: Chicago Match to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchChicago'
+      responses:
+        "201":
+          description: The created match's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchChicago'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/chicagos/{chiId}:
+    get:
+      tags:
+      - Chicago
+      summary: Get the match by ID
+      description: Returns the specified chicago match.
+      operationId: getChicagoById
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The requested Chicago match, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchChicago'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Chicago
+      summary: Update a chicago match
+      description: Update a chicago match.  The id of the chicago match in the body
+        is replaced with chiId
+      operationId: updateChicago
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Chicago Match to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchChicago'
+      responses:
+        "204":
+          description: The match was updated
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Chicago
+      summary: Delete a match by ID
+      operationId: deleteChicagoById
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the match to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Chicago match deleted.
+  /rest/duplicates:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all duplicate matches
+      description: Returns a list of matches.
+      operationId: getDuplicates
+      responses:
+        "200":
+          description: "A list of matches, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchDuplicate'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a duplicate match
+      operationId: createDuplicate
+      parameters:
+      - name: test
+        in: query
+        description: "If present, create test match, value is ignored."
+        allowEmptyValue: true
+        schema:
+          type: string
+      - name: default
+        in: query
+        description: "If present, indicates boards and hands should be added.  Default\
+          \ movements is 2TablesArmonk, default boards is ArmonkBoards, value is ignored."
+        allowEmptyValue: true
+        schema:
+          type: string
+      - name: boards
+        in: query
+        description: "If present, indicates which boards to use, example values: StandardBoards,\
+          \ ArmonkBoards"
+        schema:
+          type: string
+      - name: movements
+        in: query
+        description: "If present, indicates which movements to use, example values:\
+          \ Howell3TableNoRelay, Mitchell3Table, Howell2Table5Teams, 2TablesArmonk"
+        schema:
+          type: string
+      requestBody:
+        description: duplicate Match to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchDuplicate'
+      responses:
+        "201":
+          description: The created match's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchDuplicate'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/duplicates/{dupId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the match by ID
+      description: Returns the specified match.
+      operationId: getDuplicateById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A match, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchDuplicate'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a duplicate match
+      operationId: updateDuplicate
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The updated duplicate Match
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchDuplicate'
+      responses:
+        "204":
+          description: Duplicate match updated
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a match by ID
+      operationId: deleteDuplicateById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: duplicate deleted.
+  /rest/duplicateplaces:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all player places for duplicate matches
+      description: Returns the player places.
+      operationId: getDuplicatePlaces
+      responses:
+        "200":
+          description: The player places
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlayerPlaces'
+  /rest/duplicateresults:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all duplicate results
+      description: Returns a list of matches.
+      operationId: getDuplicateResults
+      responses:
+        "200":
+          description: "A list of matches, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchDuplicateResult'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a duplicate result
+      operationId: createDuplicateResult
+      parameters:
+      - name: test
+        in: query
+        description: "If present, create test match, value is ignored."
+        allowEmptyValue: true
+        schema:
+          type: string
+      - name: default
+        in: query
+        description: "If present, indicates boards and hands should be added.  Default\
+          \ movements is 2TablesArmonk, default boards is ArmonkBoards, value is ignored."
+        allowEmptyValue: true
+        schema:
+          type: string
+      - name: boards
+        in: query
+        description: "If present, indicates which boards to use, example values: StandardBoards,\
+          \ ArmonkBoards"
+        schema:
+          type: string
+      - name: movements
+        in: query
+        description: "If present, indicates which movements to use, example values:\
+          \ Howell3TableNoRelay, Mitchell3Table, Howell2Table5Teams, 2TablesArmonk"
+        schema:
+          type: string
+      requestBody:
+        description: duplicate results to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchDuplicateResult'
+      responses:
+        "201":
+          description: The created duplicate result's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchDuplicateResult'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/duplicateresults/{matchId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the duplicate results by ID
+      description: Returns the specified duplicate results.
+      operationId: getDuplicateResultById
+      parameters:
+      - name: matchId
+        in: path
+        description: ID of the duplicate results to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A duplicate results, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchDuplicateResult'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a duplicate result
+      operationId: updateDuplicateResult
+      parameters:
+      - name: matchId
+        in: path
+        description: ID of the match to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The updated duplicate Match
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchDuplicateResult'
+      responses:
+        "204":
+          description: Duplicate result updated
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a match by ID
+      operationId: deleteDuplicateResultById
+      parameters:
+      - name: matchId
+        in: path
+        description: ID of the match to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: DuplicateResult match deleted.
+  /rest/duplicatesummaries:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all duplicate matches
+      description: Returns a list of matches.
+      operationId: getDuplicateSummaries
+      responses:
+        "200":
+          description: "A list of match summaries, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/DuplicateSummary'
+  /rest/loggerConfig:
+    get:
+      tags:
+      - Server
+      summary: Get the logger config
+      operationId: getLoggerConfig
+      responses:
+        "200":
+          description: "The logger config, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoggerConfig'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/serverversion:
+    get:
+      tags:
+      - Server
+      summary: Get the server version
+      operationId: getServerVersion
+      responses:
+        "200":
+          description: The server versions
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServerVersion'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/serverurls:
+    get:
+      tags:
+      - Server
+      summary: Get the server URLs
+      operationId: getServerURL
+      responses:
+        "200":
+          description: The server URLs
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/ServerURL'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/boardsetsandmovements:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the boardsets and movements
+      operationId: getBoardSetsAndMovements
+      responses:
+        "200":
+          description: The boardsets and movements
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/BoardSetsAndMovements'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/movements:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all movements
+      description: Returns a list of movements.
+      operationId: getMovements
+      responses:
+        "200":
+          description: "A list of movements, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Movement'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a movement
+      operationId: createMovement
+      requestBody:
+        description: movement to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movement'
+      responses:
+        "201":
+          description: The created movement's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/movements/{movementId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the movement by ID
+      operationId: getMovementById
+      parameters:
+      - name: movementId
+        in: path
+        description: ID of the movement to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The movement, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Movement'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a movement
+      operationId: updateMovement
+      parameters:
+      - name: movementId
+        in: path
+        description: ID of the movement to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: The updated duplicate Match
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Movement'
+      responses:
+        "204":
+          description: Movement updated
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a movement by ID
+      operationId: deleteMovementById
+      parameters:
+      - name: movementId
+        in: path
+        description: ID of the movement to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Movement deleted.
+  /rest/names:
+    get:
+      tags:
+      - Server
+      summary: Get all known names
+      operationId: getNames
+      responses:
+        "200":
+          description: The names as a list of string objects
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  type: string
+  /rest/duplicates/{dupId}/boards:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all boards
+      description: Returns a list of boards.
+      operationId: getBoards
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of boards, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Board'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a board
+      operationId: createBoard
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: duplicate board to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Board'
+      responses:
+        "201":
+          description: The created board's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Board'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/duplicates/{dupId}/boards/{boardId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the board by ID
+      operationId: getBoardById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The board, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Board'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a board
+      operationId: updateBoard
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: duplicate board to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Board'
+      responses:
+        "204":
+          description: Board updated
+        "404":
+          description: Does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a board by ID
+      operationId: deleteBoardById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Board deleted.
+  /rest/chicagos/{chiId}/rounds:
+    get:
+      tags:
+      - Chicago
+      summary: Get all rounds
+      description: Returns a list of rounds.
+      operationId: getRounds
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the rounds to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of rounds, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Round'
+    post:
+      tags:
+      - Chicago
+      summary: Create a round
+      operationId: createRound
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the rounds to manipulate
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: chicago round to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Round'
+      responses:
+        "201":
+          description: The created round's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Round'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/chicagos/{chiId}/rounds/{roundId}:
+    get:
+      tags:
+      - Chicago
+      summary: Get the round by ID
+      operationId: getRoundById
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the rounds to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the round to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The round, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Round'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Chicago
+      summary: Update a round
+      operationId: updateRound
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the rounds to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the round to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: chicago round to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Round'
+      responses:
+        "204":
+          description: Round updated
+        "404":
+          description: Does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Chicago
+      summary: Delete a round by ID
+      operationId: deleteRoundById
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the rounds to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the round to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Round deleted.
+  /rest/chicagos/{chiId}/rounds/{roundId}/hands/{handId}:
+    get:
+      tags:
+      - Chicago
+      summary: Get the hand by ID
+      operationId: getHandById
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the chicago round that contains the hands to get
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The hand, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hand'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Chicago
+      summary: Update a hand
+      operationId: updateHand
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the chicago round that contains the hands to get
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: chicago hand to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hand'
+      responses:
+        "204":
+          description: Hand updated
+        "404":
+          description: Does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Chicago
+      summary: Delete a hand by ID
+      operationId: deleteHandById
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the chicago round that contains the hands to get
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Hand deleted.
+  /rest/chicagos/{chiId}/rounds/{roundId}/hands:
+    get:
+      tags:
+      - Chicago
+      summary: Get all hands
+      description: Returns a list of hands.
+      operationId: getHands
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the hands to get
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the chicago round that contains the hands to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of hands, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Hand'
+    post:
+      tags:
+      - Chicago
+      summary: Create a hand
+      operationId: createHand
+      parameters:
+      - name: chiId
+        in: path
+        description: ID of the chicago match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: roundId
+        in: path
+        description: ID of the chicago round that contains the hands to get
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: chicago hand to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Hand'
+      responses:
+        "201":
+          description: The created hand's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Hand'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/duplicates/{dupId}/boards/{boardId}/hands/{handId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the hand by ID
+      operationId: getHandById_1
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The hand, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DuplicateHand'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a hand
+      operationId: updateHand_1
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: hand to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateHand'
+      responses:
+        "204":
+          description: Hand updated
+        "404":
+          description: Does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a hand by ID
+      operationId: deleteHandById_1
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Hand deleted.
+  /rest/duplicates/{dupId}/boards/{boardId}/hands:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all hands
+      description: Returns a list of hands.
+      operationId: getHands_1
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of hands, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/DuplicateHand'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a hand
+      operationId: createHand_1
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the boards to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the board that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: hand to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateHand'
+      responses:
+        "201":
+          description: The created hand's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DuplicateHand'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/duplicates/{dupId}/pictures:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all picture URLs
+      description: Returns a list of picture information objects
+      operationId: getPictures
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the pictures to manipulate
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of picture information objects, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/DuplicatePicture'
+  /rest/duplicates/{dupId}/pictures/{boardId}:
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a picture by ID
+      operationId: deletePictureById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the pictures to manipulate
+        required: true
+        schema:
+          type: string
+      - name: boardId
+        in: path
+        description: ID of the picture to manipulate
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Picture deleted.
+  /rest/rubbers/{rubId}/hands/{handId}:
+    get:
+      tags:
+      - Rubber
+      summary: Get the hand by ID
+      operationId: getHandById_2
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the rubber match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The hand, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RubberHand'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Rubber
+      summary: Update a hand
+      operationId: updateHand_2
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the rubber match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to update
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: rubber hand to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RubberHand'
+      responses:
+        "204":
+          description: RubberHand updated
+        "404":
+          description: Does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Rubber
+      summary: Delete a hand by ID
+      operationId: deleteHandById_2
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the rubber match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: RubberHand deleted.
+  /rest/rubbers/{rubId}/hands:
+    get:
+      tags:
+      - Rubber
+      summary: Get all hands
+      description: Returns a list of hands.
+      operationId: getHands_2
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the rubber match that contains the hands to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of hands, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/RubberHand'
+    post:
+      tags:
+      - Rubber
+      summary: Create a hand
+      operationId: createHand_2
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the rubber match that contains the hands to manipulate
+        required: true
+        schema:
+          type: string
+      - name: handId
+        in: path
+        description: ID of the hand to get
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: rubber hand to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RubberHand'
+      responses:
+        "201":
+          description: The created hand's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RubberHand'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/duplicates/{dupId}/teams/{teamId}:
+    get:
+      tags:
+      - Duplicate
+      summary: Get the team by ID
+      operationId: getTeamById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match duplicate that contains the teams to manipulate
+        required: true
+        schema:
+          type: string
+      - name: teamId
+        in: path
+        description: ID of the team to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The team, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Duplicate
+      summary: Update a team
+      operationId: updateTeam
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match duplicate that contains the teams to manipulate
+        required: true
+        schema:
+          type: string
+      - name: teamId
+        in: path
+        description: ID of the team to delete
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: team to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        "204":
+          description: Team updated
+        "404":
+          description: Does not exist.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Duplicate
+      summary: Delete a team by ID
+      operationId: deleteTeamById
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the duplicate that contains the team to manipulate
+        required: true
+        schema:
+          type: string
+      - name: teamId
+        in: path
+        description: ID of the team to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Team deleted.
+  /rest/duplicates/{dupId}/teams:
+    get:
+      tags:
+      - Duplicate
+      summary: Get all teams
+      description: Returns a list of teams.
+      operationId: getTeams
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match duplicate that contains the teams to manipulate
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "A list of teams, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+    post:
+      tags:
+      - Duplicate
+      summary: Create a team
+      operationId: createTeam
+      parameters:
+      - name: dupId
+        in: path
+        description: ID of the match duplicate that contains the teams to manipulate
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: team to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        "201":
+          description: The created team's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/rubbers:
+    get:
+      tags:
+      - Rubber
+      summary: Get all rubber matches
+      description: Returns a list of matches.
+      operationId: getRubbers
+      responses:
+        "200":
+          description: "A list of matches, as a JSON array"
+          content:
+            application/json:
+              schema:
+                minItems: 0
+                uniqueItems: true
+                type: array
+                items:
+                  $ref: '#/components/schemas/MatchRubber'
+    post:
+      tags:
+      - Rubber
+      summary: Create a rubber match
+      operationId: createRubber
+      requestBody:
+        description: Rubber Match to create
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchRubber'
+      responses:
+        "201":
+          description: The created match's JSON
+          headers:
+            Location:
+              description: The URL of the newly created resource
+              style: simple
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchRubber'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /rest/rubbers/{rubId}:
+    get:
+      tags:
+      - Rubber
+      summary: Get the match by ID
+      description: Returns the specified rubber match.
+      operationId: getRubberById
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the rubber match to get
+        required: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: "The requested Rubber match, as a JSON object"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MatchRubber'
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    put:
+      tags:
+      - Rubber
+      summary: Update a rubber match
+      description: Update a rubber match.  The id of the rubber match in the body
+        is replaced with rubId
+      operationId: updateRubber
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the match to get
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: Rubber Match to update
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MatchRubber'
+      responses:
+        "204":
+          description: The match was updated
+        "404":
+          description: Does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+    delete:
+      tags:
+      - Rubber
+      summary: Delete a match by ID
+      operationId: deleteRubberById
+      parameters:
+      - name: rubId
+        in: path
+        description: ID of the match to delete
+        required: true
+        schema:
+          type: string
+      responses:
+        "204":
+          description: Rubber match deleted.
+  /rest/suggestions:
+    post:
+      tags:
+      - Duplicate
+      summary: Get a suggestion of pairings
+      operationId: suggestion
+      requestBody:
+        description: The 8 names of the players and the number of suggestions wanted
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DuplicateSuggestions'
+      responses:
+        "201":
+          description: The suggestion
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DuplicateSuggestions'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RestMessage'
+  /logger/entry:
+    post:
+      tags:
+      - Server
+      summary: Remote logging
+      operationId: callRemoteLogging
+      requestBody:
+        description: Log entry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LogEntry'
+      responses:
+        "204":
+          description: Accepted
+  /logger/ws:
+    get:
+      tags:
+      - Server
+      summary: "Remote logging, protocols: WS, WSS"
+      operationId: callRemoteLoggingWS
+      responses:
+        "101":
+          description: Switching to websocket protocol
+  /shutdown:
+    post:
+      tags:
+      - Server
+      summary: Shutdown the server
+      description: "Shutdown the server, must be issued through loopback interface"
+      operationId: shutdown
+      parameters:
+      - name: doit
+        in: query
+        description: Actually do the shutdown
+        required: true
+        schema:
+          type: string
+          enum:
+          - "yes"
+      responses:
+        "204":
+          description: Accepted
+        "400":
+          description: Bad request
+  /graphql:
+    post:
+      tags:
+      - Server
+      summary: Make a GraphQL request
+      operationId: graphql
+      requestBody:
+        description: "The request.  A JSON object with three fields: query (string),\
+          \ operationName (optional string), variables (optional object)"
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GraphQLRequest'
+      responses:
+        "200":
+          description: The result of the GraphQL request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+        "500":
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GraphQLResponse'
+components:
+  schemas:
+    BestMatch:
+      title: BestMatch - Identifies the best match in the main store.
+      required:
+      - sameness
+      type: object
+      properties:
+        sameness:
+          title: How similar the matches are
+          type: number
+          description: "How similar the matches are, percent of fields that are the\
+            \ same."
+          format: double
+        id:
+          title: The ID of the matching match duplicate
+          type: string
+          description: "The ID of the MatchDuplicate in the main store that is the\
+            \ best match, none if no match"
+        differences:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the fields that are different.
+          items:
+            type: string
+            description: A field that is different
+      description: Identifies the best match in the main store.
+    Board:
+      title: Board - Represents a board of a duplicate match.
+      required:
+      - created
+      - dealer
+      - ewVul
+      - hands
+      - id
+      - nsVul
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the board
+        nsVul:
+          type: boolean
+          description: True if NS is vulnerable on the board
+        ewVul:
+          type: boolean
+          description: True if EW is vulnerable on the board
+        dealer:
+          type: string
+          description: the dealer for the board
+          enum:
+          - "N"
+          - S
+          - E
+          - W
+        hands:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All duplicate hands for the board
+          items:
+            $ref: '#/components/schemas/DuplicateHand'
+        created:
+          type: number
+          description: "When the board was created, in milliseconds since 1/1/1970\
+            \ UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the board was last updated, in milliseconds since 1/1/1970\
+            \ UTC"
+          format: double
+      description: "A board from a duplicate match, contains all the played hands\
+        \ on the board."
+    BoardInSet:
+      title: BoardInSet - The vulnerabilities and dealer of a board
+      required:
+      - dealer
+      - ewVul
+      - id
+      - nsVul
+      type: object
+      properties:
+        id:
+          minimum: 1
+          type: integer
+          description: "The board number, 1, 2, ..."
+          format: int32
+        nsVul:
+          type: boolean
+          description: true if NS is vulnerable
+        ewVul:
+          type: boolean
+          description: true if EW is vulnerable
+        dealer:
+          type: string
+          description: the dealer
+          enum:
+          - "N"
+          - S
+          - E
+          - W
+      description: Shows the vulnerabilities NS and EW and dealer of a board when
+        a hand is played.
+    BoardResults:
+      title: BoardResults - the results of a board.
+      required:
+      - board
+      - points
+      type: object
+      properties:
+        board:
+          type: integer
+          description: The board
+          format: int32
+        points:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: The played hands in the round.
+          items:
+            $ref: '#/components/schemas/BoardTeamResults'
+      description: The results of a board in a Duplicate results object.
+    BoardSet:
+      title: BoardSet - A set of boards for duplicate bridge.
+      required:
+      - boards
+      - description
+      - name
+      - short
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the boardset
+        short:
+          type: string
+          description: A short description of the boardset
+        description:
+          type: string
+          description: A long description of the boardset
+        boards:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the boards in the boardset
+          items:
+            $ref: '#/components/schemas/BoardInSet'
+        creationTime:
+          type: object
+          description: "the creation time, default: unknown"
+        updateTime:
+          type: object
+          description: "the last time the boardset was updated, default: unknown"
+      description: A set of boards for duplicate bridge.
+    BoardSetsAndMovements:
+      title: BoardSetsAndMovements - All the boardsets and movements.
+      required:
+      - boardsets
+      - movements
+      type: object
+      properties:
+        boardsets:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the boardsets known to the server.
+          items:
+            $ref: '#/components/schemas/BoardSet'
+        movements:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the movements known to the server.
+          items:
+            $ref: '#/components/schemas/Movement'
+      description: All board sets and movements that the server knows about.
+      readOnly: true
+    BoardTeamResults:
+      title: BoardTeamResults - team results on board.
+      required:
+      - points
+      - team
+      type: object
+      properties:
+        team:
+          type: string
+          description: The id of the team
+        points:
+          type: number
+          description: The number of points the team got playing the board
+          format: double
+      description: The results of a team when they played the board.
+    ChicagoBestMatch:
+      title: ChicagoBestMatch - The best match in the main store
+      required:
+      - id
+      - sameness
+      type: object
+      properties:
+        sameness:
+          title: How similar the matches are.
+          type: number
+          description: The percentage of fields that are the same.
+          format: double
+        id:
+          title: The ID of the best match.
+          type: string
+          description: "The ID of the MatchChicago in the main store that is the best\
+            \ match, none if no match"
+        differences:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the different fields.
+          items:
+            type: string
+            description: A field that is different
+      description: The best match in the main store
+    DuplicateHand:
+      title: DuplicateHand - A hand from a duplicate match
+      required:
+      - board
+      - created
+      - eIsPlayer1
+      - ewTeam
+      - nIsPlayer1
+      - nsTeam
+      - played
+      - round
+      - table
+      - updated
+      type: object
+      properties:
+        played:
+          maxItems: 1
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: "The played hand.  Length of 0 indicates not played, length\
+            \ of 1 indicates played."
+          items:
+            $ref: '#/components/schemas/Hand'
+        table:
+          type: string
+          description: The table id of where the hand is played
+        round:
+          minimum: 1
+          type: integer
+          description: The round the hand is played in
+          format: int32
+        board:
+          type: string
+          description: The board id
+        nsTeam:
+          type: string
+          description: The team id of the team playing NS.  This is also the id of
+            the DuplicateHand
+        nIsPlayer1:
+          type: boolean
+          description: true if player 1 of the NS team is the north player
+        ewTeam:
+          type: string
+          description: The team id of the team playing EW
+        eIsPlayer1:
+          type: boolean
+          description: true if player 1 of the EW team is the east player
+        created:
+          type: number
+          description: "When the duplicate hand was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate hand was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+      description: "A hand from a duplicate match, it may or may not have been played."
+    DuplicatePicture:
+      title: DuplicatePicture - Information about hand pictures for boards
+      required:
+      - boardId
+      - handId
+      - url
+      type: object
+      properties:
+        boardId:
+          type: string
+          description: The board ID
+        handId:
+          type: string
+          description: The hand ID
+        url:
+          type: string
+          description: The URL relative to this servers root URL
+      description: Information about hand pictures for boards
+    DuplicateSuggestions:
+      title: DuplicateSuggestions - Suggested player pairings.
+      required:
+      - players
+      type: object
+      properties:
+        players:
+          maxItems: 8
+          minItems: 8
+          type: array
+          description: "The players to pair, must be exactly 8 players"
+          items:
+            type: string
+        numberSuggestion:
+          type: integer
+          description: The number of suggestions to return.
+          format: int32
+        suggestions:
+          minItems: 0
+          type: array
+          description: The top suggested pairings
+          items:
+            $ref: '#/components/schemas/Suggestion'
+        calcTimeMillis:
+          type: number
+          description: Calculation time in ms
+          format: double
+        history:
+          type: integer
+          format: int32
+        neverPair:
+          minItems: 0
+          type: array
+          description: Players that should not be paired.
+          items:
+            $ref: '#/components/schemas/NeverPair'
+      description: Data structure for requesting and recieving player pairings.
+    DuplicateSummary:
+      title: DuplicateSummary - A summary of duplicate matches that have been played.
+      required:
+      - boards
+      - created
+      - finished
+      - id
+      - onlyresult
+      - tables
+      - teams
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the MatchDuplicate being summarized
+        finished:
+          type: boolean
+          description: True if the match is finished
+        teams:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: The scores of the teams.
+          items:
+            $ref: '#/components/schemas/DuplicateSummaryEntry'
+        boards:
+          minimum: 1
+          type: integer
+          description: The number of boards in the match
+          format: int32
+        tables:
+          minimum: 2
+          type: integer
+          description: The number of tables in the match
+          format: int32
+        onlyresult:
+          type: boolean
+          description: True if this is only the results
+        created:
+          type: number
+          description: "When the duplicate match was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate match was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+        bestMatch:
+          $ref: '#/components/schemas/BestMatch'
+        scoringmethod:
+          type: string
+          description: "the scoring method used, default is MP"
+          enum:
+          - MP
+          - IMP
+      description: The summary of duplicate matches that have been played
+    DuplicateSummaryDetails:
+      title: DuplicateSummaryDetails - Team stats in a match
+      required:
+      - allowedMade
+      - declarer
+      - defended
+      - down
+      - made
+      - passed
+      - team
+      - tookDown
+      type: object
+      properties:
+        team:
+          type: string
+          description: The id of the team
+        declarer:
+          minimum: 0
+          type: integer
+          description: The number of times the team was declarer
+          format: int32
+        made:
+          minimum: 0
+          type: integer
+          description: The number of times the team made the contract as declarer
+          format: int32
+        down:
+          minimum: 0
+          type: integer
+          description: The number of times the team went down as declarer
+          format: int32
+        defended:
+          minimum: 0
+          type: integer
+          description: The number of times the team defended the contract
+          format: int32
+        tookDown:
+          minimum: 0
+          type: integer
+          description: The number of times the team took down the contract as defenders
+          format: int32
+        allowedMade:
+          minimum: 0
+          type: integer
+          description: The number of times the team allowed the contract to be made
+            as defenders
+          format: int32
+        passed:
+          minimum: 0
+          type: integer
+          description: The number of times the team passed out a game
+          format: int32
+      description: Details about a team in a match
+    DuplicateSummaryEntry:
+      title: DuplicateSummaryEntry - The summary of a team in a duplicate match
+      required:
+      - team
+      type: object
+      properties:
+        team:
+          $ref: '#/components/schemas/Team'
+        result:
+          type: number
+          description: The points the team scored when using MP scoring
+          format: double
+        place:
+          type: integer
+          description: The place the team finished in when using MP scoring
+          format: int32
+        details:
+          $ref: '#/components/schemas/DuplicateSummaryDetails'
+        resultImp:
+          type: number
+          description: The IMPs the team scored
+          format: double
+        placeImp:
+          type: integer
+          description: The place using IMPs the team finished in
+          format: int32
+      description: The summary of a team in a duplicate match
+    ErrorLocation:
+      title: ErrorLocation - An error location
+      type: object
+      properties:
+        line:
+          type: integer
+          description: The line number
+          format: int32
+        column:
+          type: integer
+          description: The column number
+          format: int32
+      description: The error location of a GraphQL request
+    ErrorMessage:
+      title: ErrorMessage - A GraphQL error message
+      type: object
+      properties:
+        message:
+          type: string
+          description: The text of the error message
+        locations:
+          minItems: 0
+          type: array
+          items:
+            $ref: '#/components/schemas/ErrorLocation'
+      description: An Error message
+    GraphQLRequest:
+      title: GraphQLRequest - A GraphQL Request
+      required:
+      - query
+      type: object
+      properties:
+        query:
+          type: string
+          description: The GraphQL query
+        operationName:
+          type: string
+          description: "The operationName, optional"
+        variables:
+          $ref: '#/components/schemas/objectreq'
+      description: A GraphQL Request
+    GraphQLResponse:
+      title: GraphQLResponse - An GraphQL response
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/anyvaluedata'
+        error:
+          type: string
+          description: An error message
+        errors:
+          minItems: 0
+          type: array
+          description: Error message(s)
+          items:
+            $ref: '#/components/schemas/ErrorMessage'
+        extensions:
+          $ref: '#/components/schemas/anyvalueext'
+      description: An GraphQL response
+    Hand:
+      title: Hand - The result of playing a hand
+      required:
+      - contractDoubled
+      - contractSuit
+      - contractTricks
+      - created
+      - declarer
+      - ewVul
+      - id
+      - madeContract
+      - nsVul
+      - tricks
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of a hand
+        contractTricks:
+          maximum: 7
+          minimum: 0
+          type: integer
+          description: The number of tricks in the bid
+          format: int32
+        contractSuit:
+          type: string
+          description: The suit of the bid
+          enum:
+          - "N"
+          - S
+          - H
+          - D
+          - C
+        contractDoubled:
+          type: string
+          description: The doubling of the contract
+          enum:
+          - "N"
+          - D
+          - R
+        declarer:
+          type: string
+          description: The declarer
+          enum:
+          - "N"
+          - S
+          - E
+          - W
+        nsVul:
+          type: boolean
+          description: true if NS was vulnerable
+        ewVul:
+          type: boolean
+          description: true if EW was vulnerable
+        madeContract:
+          type: boolean
+          description: true if the contract was made
+        tricks:
+          maximum: 13
+          minimum: 0
+          type: integer
+          description: The number of tricks made or down
+          format: int32
+        created:
+          type: number
+          description: "When the duplicate hand was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate hand was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+      description: The result of playing a hand
+    HandInTable:
+      title: HandInTable - Information about a round at a table
+      required:
+      - boards
+      - ew
+      - ns
+      - round
+      - table
+      type: object
+      properties:
+        table:
+          minimum: 1
+          type: integer
+          description: The table number
+          format: int32
+        round:
+          minimum: 1
+          type: integer
+          description: The round number
+          format: int32
+        ns:
+          minimum: 1
+          type: integer
+          description: 'The NS team number '
+          format: int32
+        ew:
+          minimum: 1
+          type: integer
+          description: 'The EW team number '
+          format: int32
+        boards:
+          minItems: 0
+          type: array
+          description: The boards that are being played in this round at the table.
+          items:
+            minimum: 1
+            type: number
+            description: The board number
+            format: int32
+      description: Contains the NS and EW teams and boards in a round at a table
+    ImportStoreData:
+      title: ImportStoreData - A store for importing matches
+      required:
+      - chicagosCount
+      - date
+      - duplicateresultsCount
+      - duplicatesCount
+      - id
+      - rubbersCount
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID
+        date:
+          type: number
+          description: "The last modified time, in milliseconds since 1/1/1970 UTC"
+          format: double
+        duplicatesCount:
+          type: integer
+          description: The number of duplicate matches in store
+          format: int32
+        duplicateresultsCount:
+          type: integer
+          description: The number of duplicate result matches in store
+          format: int32
+        chicagosCount:
+          type: integer
+          description: The number of chicago matches in store
+          format: int32
+        rubbersCount:
+          type: integer
+          description: The number of rubber matches in store
+          format: int32
+      description: An import store
+    ListListObject:
+      type: array
+      properties: {}
+      description: "First index is place, place = i+1.  Second index is number of\
+        \ other teams tied."
+      items:
+        required: []
+        type: array
+        properties: {}
+        description: "First index is place, place = i+1.  Second index is number of\
+          \ other teams tied."
+        items:
+          type: object
+          description: "First index is place, place = i+1.  Second index is number\
+            \ of other teams tied."
+    ListObject:
+      required: []
+      type: array
+      properties: {}
+      description: "First index is place, place = i+1.  Second index is number of\
+        \ other teams tied."
+      items:
+        type: object
+        description: "First index is place, place = i+1.  Second index is number of\
+          \ other teams tied."
+    ListPlayerPlace:
+      type: array
+      properties: {}
+      description: all the players.
+      items:
+        $ref: '#/components/schemas/PlayerPlace'
+    LogEntry:
+      title: LogEntry - For a log message from the client.
+      required:
+      - args
+      - cause
+      - level
+      - logger
+      - message
+      - position
+      - timestamp
+      - url
+      type: object
+      properties:
+        position:
+          type: string
+          description: The source position
+        logger:
+          type: string
+          description: The logger name
+        timestamp:
+          type: number
+          description: "The timestamp, in milleseconds since 1/1/1970"
+          format: double
+        level:
+          type: string
+          description: The trace level
+        url:
+          type: string
+          description: The URL of the page
+        message:
+          type: string
+          description: The message
+        cause:
+          type: string
+          description: The cause
+        args:
+          minItems: 0
+          type: array
+          description: The arguments to formatting the message.
+          items:
+            type: string
+            description: An argument to the message.
+        clientid:
+          type: string
+          description: A client Id
+      description: For a log message from the client.
+    LoggerConfig:
+      title: LoggerConfig - Logger configuration for the browser
+      required:
+      - appenders
+      - loggers
+      type: object
+      properties:
+        loggers:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the logger configurations.
+          items:
+            type: string
+            description: "The logging level for a logger, syntax: &lt;loggername&gt;=&lt;level&gt;"
+            example: "[root]=ALL"
+        appenders:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the appender configurations.
+          items:
+            type: string
+            description: "The logging level for an appender, syntax: &lt;appendername&gt;=&lt;level&gt;"
+            example: "[root]=ALL"
+        clientid:
+          type: string
+          description: A client Id
+        useRestToServer:
+          type: boolean
+          description: Use Rest when updating REST objects
+        useSSEFromServer:
+          type: boolean
+          description: Use SSE to receive updates from server
+      description: Logger configuration for the browser
+    MatchChicago:
+      title: MatchChicago - A chicago match
+      required:
+      - created
+      - gamesPerRound
+      - id
+      - players
+      - rounds
+      - simpleRotation
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The chicago ID
+        players:
+          minItems: 4
+          uniqueItems: true
+          type: array
+          description: All the players.
+          items:
+            type: string
+        rounds:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the rounds.
+          items:
+            $ref: '#/components/schemas/Round'
+        gamesPerRound:
+          type: integer
+          description: The number of games per round.
+          format: int32
+          enum:
+          - 0
+          - 4
+          - 6
+          - 8
+        simpleRotation:
+          type: boolean
+          description: Use simple rotation.
+        created:
+          type: number
+          description: "The creating date, in milliseconds since 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "The last update date, in milliseconds since 1/1/1970 UTC"
+          format: double
+        bestMatch:
+          $ref: '#/components/schemas/ChicagoBestMatch'
+      description: "A chicago match, version 3 (current version)"
+    MatchDuplicate:
+      title: MatchDuplicate - A duplicate match.
+      required:
+      - boards
+      - boardset
+      - created
+      - id
+      - movement
+      - teams
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the MatchDuplicate
+        teams:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the teams.
+          items:
+            $ref: '#/components/schemas/Team'
+        boards:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the boards being played in this match.
+          items:
+            $ref: '#/components/schemas/Board'
+        boardset:
+          type: string
+          description: The boardsets being used
+        movement:
+          type: string
+          description: The movements being used
+        created:
+          type: number
+          description: "When the duplicate hand was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate hand was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+        scoringmethod:
+          type: string
+          description: "the scoring method used, default is MP"
+          enum:
+          - MP
+          - IMP
+      description: "A duplicate match, version 3 (current version)"
+    MatchDuplicateResult:
+      title: MatchDuplicateResult - the results of a match.
+      required:
+      - created
+      - id
+      - played
+      - results
+      - scoringmethod
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the MatchDuplicate
+        results:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: "The results of the match, a list of winnersets.  Each winnerset\
+            \ is a list of DuplicateSummaryEntry objects that show the results of\
+            \ teams that competed against each other."
+          items:
+            $ref: '#/components/schemas/DuplicateSummaryEntry'
+        boardresults:
+          type: array
+          description: "The board scores of the teams, a list of BoardResults objects"
+          items:
+            $ref: '#/components/schemas/BoardResults'
+        comment:
+          type: string
+          description: a comment
+        notfinished:
+          type: boolean
+          description: "True if the match is not finished, default is false"
+        played:
+          type: number
+          description: "when the duplicate match was played, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        created:
+          type: number
+          description: "When the duplicate match was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate match was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+        scoringmethod:
+          type: string
+          description: the scoring method used
+          enum:
+          - MP
+          - IMP
+      description: The results of a match.  This is used when the scoring was done
+        by paper and only the results are known.
+    MatchRubber:
+      title: MatchRubber - A rubber bridge match
+      required:
+      - created
+      - dealerFirstHand
+      - east
+      - hands
+      - id
+      - north
+      - south
+      - updated
+      - west
+      type: object
+      properties:
+        id:
+          type: string
+          description: The round ID
+        north:
+          type: string
+          description: The north player
+        south:
+          type: string
+          description: The south player
+        east:
+          type: string
+          description: The east player
+        west:
+          type: string
+          description: The west player
+        dealerFirstHand:
+          type: string
+          description: The first dealer
+          enum:
+          - "N"
+          - S
+          - E
+          - W
+        hands:
+          minItems: 0
+          type: array
+          description: All the hands played in the rubber match.
+          items:
+            $ref: '#/components/schemas/RubberHand'
+        created:
+          type: number
+          description: "When the match rubber was created, in milliseconds since 1/1/1970\
+            \ UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the match rubber was last updated, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        bestMatch:
+          $ref: '#/components/schemas/RubberBestMatch'
+      description: A rubber bridge match
+    Movement:
+      title: Movement - A movement for a duplicate bridge match
+      required:
+      - description
+      - hands
+      - name
+      - numberTeams
+      - short
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the movement
+        short:
+          type: string
+          description: A short description of the movement
+        description:
+          type: string
+          description: A longer description of the movement
+        numberTeams:
+          type: integer
+          description: The number of teams in the movement
+          format: int32
+        hands:
+          minItems: 1
+          uniqueItems: true
+          type: array
+          description: All the round descriptions on all the tables.
+          items:
+            $ref: '#/components/schemas/HandInTable'
+        creationTime:
+          type: object
+          description: "the creation time, default: unknown"
+        updateTime:
+          type: object
+          description: "the last time the movement was updated, default: unknown"
+      description: A movements for a duplicate bridge match
+    MultipartFile:
+      type: object
+      properties:
+        zip:
+          type: string
+          description: "Bridge store file, must have an extension of '.bridgestore'\
+            \ or '.zip'"
+          format: binary
+    NeverPair:
+      title: NeverPair - A pair of players that should not be paired.
+      required:
+      - player1
+      - player2
+      type: object
+      properties:
+        player1:
+          type: string
+          description: The name of a player
+        player2:
+          type: string
+          description: The name of a player
+      description: NeverPair - A pair of players that should not be paired when making
+        a suggestion of pairings.
+    Pairing:
+      title: Pairing - A suggested pairing
+      required:
+      - lastPlayed
+      - player1
+      - player2
+      - timesPlayed
+      type: object
+      properties:
+        player1:
+          type: string
+          description: The name of a player
+        player2:
+          type: string
+          description: The name of a player
+        lastPlayed:
+          type: integer
+          description: The number of matches since they last played together.
+          format: int32
+        timesPlayed:
+          type: integer
+          description: The number of times the pair has played together.
+          format: int32
+      description: A suggested pairing and some stats about the pairing.
+    PlayerPlace:
+      title: PlayerPlace - Player place stats for one player
+      required:
+      - maxTeams
+      - name
+      - place
+      - total
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the player
+        place:
+          type: array
+          properties: {}
+          description: "First index is place, place = i+1.  Second index is number\
+            \ of other teams tied."
+          items:
+            type: array
+            properties: {}
+            description: "First index is place, place = i+1.  Second index is number\
+              \ of other teams tied."
+            items:
+              type: object
+              description: "First index is place, place = i+1.  Second index is number\
+                \ of other teams tied."
+        total:
+          type: integer
+          description: Number of matches the player has played
+          format: int32
+        maxTeams:
+          type: integer
+          description: The maximum number of teams in a match this player played
+          format: int32
+      description: Stats showing the number of times a player came in a place.
+    PlayerPlaces:
+      title: PlayerPlaces - Player place stats
+      required:
+      - maxTeams
+      - players
+      type: object
+      properties:
+        maxTeams:
+          type: integer
+          description: The maximum number of teams in matches played
+          format: int32
+        players:
+          type: array
+          properties: {}
+          description: all the players.
+          items:
+            $ref: '#/components/schemas/PlayerPlace'
+      description: Stats showing the number of times all player came in a place.
+    RestMessage:
+      title: RestMessage - Structure returned for all REST API errors
+      required:
+      - msg
+      type: object
+      properties:
+        msg:
+          type: string
+          description: A message indicating what the error was
+      description: Structure returned for all REST API errors
+    Round:
+      title: Round - A round in a chicago match
+      required:
+      - created
+      - dealerFirstRound
+      - east
+      - hands
+      - id
+      - north
+      - south
+      - updated
+      - west
+      type: object
+      properties:
+        id:
+          type: string
+          description: The round ID
+        north:
+          type: string
+          description: The north player for the round
+        south:
+          type: string
+          description: The south player for the round
+        east:
+          type: string
+          description: The east player for the round
+        west:
+          type: string
+          description: The west player for the round
+        dealerFirstRound:
+          type: string
+          description: The first dealer
+          enum:
+          - "N"
+          - S
+          - E
+          - W
+        hands:
+          minItems: 0
+          type: array
+          description: The played hands in the round.
+          items:
+            $ref: '#/components/schemas/Hand'
+        created:
+          type: number
+          description: "When the duplicate hand was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate hand was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+      description: A round in a chicago match
+    RubberBestMatch:
+      title: RubberBestMatch - The best match in the main store
+      required:
+      - differences
+      - id
+      - sameness
+      type: object
+      properties:
+        sameness:
+          type: number
+          description: How similar the matches are
+          format: double
+        id:
+          type: string
+          description: "The ID of the MatchRubber in the main store that is the best\
+            \ match, none if no match"
+        differences:
+          type: array
+          description: The fields that are different
+          items:
+            type: string
+            description: A field that is different
+      description: The best match in the main store.
+    RubberHand:
+      title: RubberHand - The result of playing a hand
+      required:
+      - created
+      - hand
+      - honors
+      - id
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of a hand
+        hand:
+          $ref: '#/components/schemas/Hand'
+        honors:
+          type: integer
+          description: The number of honor points given
+          format: int32
+        honorsPlayer:
+          type: string
+          description: "The player that got the honors points, Must be specified if\
+            \ honors not equal to 0, ignored otherwise"
+          enum:
+          - "N"
+          - S
+          - E
+          - W
+        created:
+          type: number
+          description: "When the duplicate hand was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate hand was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+      description: The result of playing a hand
+    ServerURL:
+      title: ServerURL - The list of URLs for the server
+      required:
+      - serverUrl
+      type: object
+      properties:
+        serverUrl:
+          minItems: 0
+          uniqueItems: true
+          type: array
+          description: All the server URLs that can be used to connect to the server.
+          items:
+            type: string
+            description: A server URL
+      description: The list of URLs that can be used to connect to the server.  The
+        response to GET /v1/rest/serverurl.
+    ServerVersion:
+      title: ServerVersion - Server version information
+      required:
+      - buildDate
+      - name
+      - version
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the entity
+        version:
+          type: string
+          description: The version of the entity
+        buildDate:
+          type: string
+          description: The build date of the entity
+      description: Server version information
+    Suggestion:
+      title: Suggestion - A suggested player pairings.
+      required:
+      - avgLastPlayed
+      - avgTimesPlayed
+      - countAllPlayed
+      - key
+      - lastPlayedAllTeams
+      - maxLastPlayed
+      - maxTimesPlayed
+      - minLastPlayed
+      - players
+      - random
+      - weight
+      - weights
+      type: object
+      properties:
+        players:
+          maxItems: 4
+          minItems: 4
+          uniqueItems: true
+          type: array
+          description: "The player pair, otherwise known as a team"
+          items:
+            $ref: '#/components/schemas/Pairing'
+        minLastPlayed:
+          type: integer
+          description: The minimum number of matches that any of the pairs last played
+            together
+          format: int32
+        maxLastPlayed:
+          type: integer
+          description: The maximum number of matches that any of the pairs last played
+            together
+          format: int32
+        maxTimesPlayed:
+          type: integer
+          description: The maximum number of times that any of the pairs last played
+            together
+          format: int32
+        avgLastPlayed:
+          type: number
+          description: The average number of times that the pairs last played together
+          format: double
+        avgTimesPlayed:
+          type: number
+          description: The average number of times that the pairs played together
+          format: double
+        lastPlayedAllTeams:
+          type: integer
+          description: The last time this suggested pairing played
+          format: int32
+        countAllPlayed:
+          type: integer
+          description: The number of times the same pairings played
+          format: int32
+        weight:
+          type: number
+          description: "The weight of this pairing, the higher the better"
+          format: double
+        weights:
+          minItems: 0
+          type: array
+          description: "The calculated weights various comparisons, the higher the\
+            \ better"
+          items:
+            type: number
+            format: double
+        random:
+          type: integer
+          description: A random number to make each suggestion unique
+          format: int32
+        key:
+          type: string
+          description: A key to identify this pairing.
+      description: A suggested player pairings.
+    Team:
+      title: Team - A team from a duplicate match
+      required:
+      - created
+      - id
+      - player1
+      - player2
+      - updated
+      type: object
+      properties:
+        id:
+          type: string
+          description: The ID of the team.
+        player1:
+          type: string
+          description: The name of player 1 on the team
+        player2:
+          type: string
+          description: The name of player 2 on the team
+        created:
+          type: number
+          description: "When the duplicate hand was created, in milliseconds since\
+            \ 1/1/1970 UTC"
+          format: double
+        updated:
+          type: number
+          description: "When the duplicate hand was last updated, in milliseconds\
+            \ since 1/1/1970 UTC"
+          format: double
+      description: A team from a duplicate match
+    anyvalue:
+      type: object
+      description: Any valid JSON
+      nullable: true
+      oneOf:
+      - type: string
+      - type: number
+      - type: integer
+        format: int32
+      - type: boolean
+      - $ref: '#/components/schemas/object'
+    anyvaluedata:
+      type: object
+      description: Any valid JSON
+      nullable: true
+      oneOf:
+      - type: string
+      - type: number
+      - type: integer
+        format: int32
+      - type: boolean
+      - $ref: '#/components/schemas/object'
+      - minItems: 0
+        type: array
+        description: array of any value
+        items:
+          $ref: '#/components/schemas/anyvalue'
+    anyvalueext:
+      type: object
+      description: Any valid JSON
+      nullable: true
+      oneOf:
+      - type: string
+      - type: number
+      - type: integer
+        format: int32
+      - type: boolean
+      - $ref: '#/components/schemas/object'
+      - minItems: 0
+        type: array
+        description: array of any value
+        items:
+          $ref: '#/components/schemas/anyvalue'
+    object:
+      type: object
+    objectreq:
+      type: object
+      description: The variables (optional object)

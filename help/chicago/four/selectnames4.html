@@ -1,0 +1,1981 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.74.2" />
+    <meta name="description" content="Documentation for Bridge Score Keeper">
+
+
+    <link rel="icon" href="../../images/favicon.png" type="image/png">
+
+    <title>Selecting Names 4 Players :: BridgeScorer</title>
+
+    
+    <link href="../../css/nucleus.css?1595110360" rel="stylesheet">
+    <link href="../../css/fontawesome-all.min.css?1595110360" rel="stylesheet">
+    <link href="../../css/hybrid.css?1595110360" rel="stylesheet">
+    <link href="../../css/featherlight.min.css?1595110360" rel="stylesheet">
+    <link href="../../css/perfect-scrollbar.min.css?1595110360" rel="stylesheet">
+    <link href="../../css/auto-complete.css?1595110360" rel="stylesheet">
+    <link href="../../css/atom-one-dark-reasonable.css?1595110360" rel="stylesheet">
+    <link href="../../css/theme.css?1595110360" rel="stylesheet">
+    <link href="../../css/hugo-theme.css?1595110360" rel="stylesheet">
+    
+    <link href="../../css/theme-mine.css?1595110360" rel="stylesheet">
+    
+    
+
+    <script src="../../js/jquery-3.3.1.min.js?1595110360"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+  </head>
+  <body class="" data-url="../../chicago/four/selectnames4.html">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="http://github.com/thebridsk/bridgescorer">
+    <p class="suits">BridgeScorer
+	    <br/>
+		<span style="color: black; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&spades;</span>
+		<span style="color: red; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&hearts;</span>
+		<span style="color: red; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&diams;</span>
+		<span style="color: black; text-shadow: -1px 0px 0 #fff, 1px 0px 0 #fff, 0px 1px 0 #fff, 0px -1px 0 #fff;">&clubs;</span>
+	</p>
+</a>
+
+
+
+
+<p>Version<br>
+<span title="2.1.3-d766286786baa6365255c14c20c87e6d7b9d41c4">2.1.3</span>
+</p>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="../../js/lunr.min.js?1595110360"></script>
+<script type="text/javascript" src="../../js/auto-complete.js?1595110360"></script>
+<script type="text/javascript">
+    
+        var baseurl = "";
+    
+</script>
+<script type="text/javascript" src="../../js/search.js?1595110360"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/introduction.html" title="Introduction" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../introduction.html">
+          Introduction
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/home.html" title="Home" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../home.html">
+          Home
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/duplicate.html" title="Duplicate" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../duplicate.html">
+          Duplicate
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/playing.html" title="Playing Duplicate" class="dd-item ">
+        <a href="../../duplicate/playing.html">
+        Playing Duplicate
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/summary.html" title="Summary" class="dd-item ">
+        <a href="../../duplicate/summary.html">
+        Summary
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/pairsuggestion.html" title="Pair Suggestion" class="dd-item ">
+        <a href="../../duplicate/pairsuggestion.html">
+        Pair Suggestion
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/new.html" title="New" class="dd-item ">
+        <a href="../../duplicate/new.html">
+        New
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/scoreboardcomplete.html" title="Scoreboard" class="dd-item ">
+        <a href="../../duplicate/scoreboardcomplete.html">
+        Scoreboard
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/boardcomplete.html" title="Board" class="dd-item ">
+        <a href="../../duplicate/boardcomplete.html">
+        Board
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/table.html" title="Table" class="dd-item ">
+        <a href="../../duplicate/table.html">
+        Table
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/enterscorekeepername.html" title="Enter Scorekeeper" class="dd-item ">
+        <a href="../../duplicate/enterscorekeepername.html">
+        Enter Scorekeeper
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/enterothernames.html" title="Enter Other Names" class="dd-item ">
+        <a href="../../duplicate/enterothernames.html">
+        Enter Other Names
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/selectscorekeepername.html" title="Select Scorekeeper" class="dd-item ">
+        <a href="../../duplicate/selectscorekeepername.html">
+        Select Scorekeeper
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/selectothernames.html" title="Select Other Names" class="dd-item ">
+        <a href="../../duplicate/selectothernames.html">
+        Select Other Names
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/enterhand.html" title="Enter Hand" class="dd-item ">
+        <a href="../../duplicate/enterhand.html">
+        Enter Hand
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/scoreboardfromtable.html" title="Scoreboard From Table" class="dd-item ">
+        <a href="../../duplicate/scoreboardfromtable.html">
+        Scoreboard From Table
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/boardfromtable.html" title="Board From Table" class="dd-item ">
+        <a href="../../duplicate/boardfromtable.html">
+        Board From Table
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/finalscoreboard.html" title="Final Scoreboard" class="dd-item ">
+        <a href="../../duplicate/finalscoreboard.html">
+        Final Scoreboard
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/director.html" title="Director" class="dd-item ">
+        <a href="../../duplicate/director.html">
+        Director
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/duplicate/statistics.html" title="Statistics" class="dd-item ">
+        <a href="../../duplicate/statistics.html">
+        Statistics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago.html" title="Chicago" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="../../chicago.html">
+          Chicago
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/list.html" title="Chicago List" class="dd-item ">
+        <a href="../../chicago/list.html">
+        Chicago List
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/four.html" title="4 Player" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="../../chicago/four.html">
+          4 Player
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/four/names4.html" title="Names 4 Players" class="dd-item ">
+        <a href="../../chicago/four/names4.html">
+        Names 4 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/four/selectnames4.html" title="Selecting Names 4 Players" class="dd-item active">
+        <a href="../../chicago/four/selectnames4.html">
+        Selecting Names 4 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/five.html" title="5 Player" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../chicago/five.html">
+          5 Player
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/five/names5.html" title="Names 5 Players" class="dd-item ">
+        <a href="../../chicago/five/names5.html">
+        Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/five/selectnames5.html" title="Selecting Names 5 Players" class="dd-item ">
+        <a href="../../chicago/five/selectnames5.html">
+        Selecting Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/fastfair.html" title="5 Player Fair" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../chicago/fastfair.html">
+          5 Player Fair
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastfair/names5.html" title="Names 5 Players" class="dd-item ">
+        <a href="../../chicago/fastfair/names5.html">
+        Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastfair/selectnamesfair.html" title="Selecting Names Fair" class="dd-item ">
+        <a href="../../chicago/fastfair/selectnamesfair.html">
+        Selecting Names Fair
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/chicago/fastsimple.html" title="5 Player Simple" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../chicago/fastsimple.html">
+          5 Player Simple
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastsimple/names5.html" title="Names 5 Players" class="dd-item ">
+        <a href="../../chicago/fastsimple/names5.html">
+        Names 5 Players
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/fastsimple/selectnamessimple.html" title="Selecting Names Simple" class="dd-item ">
+        <a href="../../chicago/fastsimple/selectnamessimple.html">
+        Selecting Names Simple
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/hand.html" title="Entering a Hand" class="dd-item ">
+        <a href="../../chicago/hand.html">
+        Entering a Hand
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/summary.html" title="Summary" class="dd-item ">
+        <a href="../../chicago/summary.html">
+        Summary
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/chicago/summaryquintet.html" title="Summary Fast Rotation" class="dd-item ">
+        <a href="../../chicago/summaryquintet.html">
+        Summary Fast Rotation
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/rubber.html" title="Rubber" class="dd-item 
+        
+        
+        
+        ">
+      <a href="../../rubber.html">
+          Rubber
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/list.html" title="List" class="dd-item ">
+        <a href="../../rubber/list.html">
+        List
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/names.html" title="Names" class="dd-item ">
+        <a href="../../rubber/names.html">
+        Names
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/hand.html" title="Enter Hand" class="dd-item ">
+        <a href="../../rubber/hand.html">
+        Enter Hand
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rubber/summary.html" title="Summary" class="dd-item ">
+        <a href="../../rubber/summary.html">
+        Summary
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      
+
+
+ 
+<ul>
+<li>
+<a class="padding" href="https://github.com/thebridsk/bridgescorer"><i class="fab fa-github"></i> GitHub Repo</a>
+</ul>
+
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                  
+                  
+                  
+                  <div id="top-github-link">
+                    <a class="github-link" title='Edit this page' href="https://github.com/thebridsk/bridgescorerdocs/tree/master/docs/content/chicago/four/selectnames4.md" target="blank">
+                      <i class="fas fa-code-branch"></i>
+                      <span id="top-github-link-text">Edit this page</span>
+                    </a>
+                  </div>
+                  
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='../../'>BridgeScorer</a> > <a href='../../chicago.html'>Chicago</a> > <a href='../../chicago/four.html'>4 Player</a> > Selecting Names 4 Players
+          
+        
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Selecting Names 4 Players
+            </h1>
+          
+
+        
+
+
+
+
+<p><img src="../../images/gen/Chicago/SelectNames4.png" alt="SelectNames4"></p>
+<p>This shows the four person Chicago match for selecting the partners for the rounds after the first.  The scorekeeper is always at the bottom.  Select where the players are sitting.  Only valid partnerships are allowed, every three rounds you must partner with all the other players.  Select who deals the first hand.  Then hit the <strong>OK</strong> button.</p>
+<p>The <strong>Reset</strong> button clears out all the selections and unselects the dealer.</p>
+<p>The <strong>Cancel</strong> button is used to leave this page.</p>
+
+
+<footer class=" footline" >
+	
+</footer>
+
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="../../chicago/four/names4.html" title="Names 4 Players"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="../../chicago/five.html" title="5 Player" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="../../js/clipboard.min.js?1595110360"></script>
+    <script src="../../js/perfect-scrollbar.min.js?1595110360"></script>
+    <script src="../../js/perfect-scrollbar.jquery.min.js?1595110360"></script>
+    <script src="../../js/jquery.sticky.js?1595110360"></script>
+    <script src="../../js/featherlight.min.js?1595110360"></script>
+    <script src="../../js/highlight.pack.js?1595110360"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="../../js/modernizr.custom-3.6.0.js?1595110360"></script>
+    <script src="../../js/learn.js?1595110360"></script>
+    <script src="../../js/hugo-learn.js?1595110360"></script>
+
+    <link href="../../mermaid/mermaid.css?1595110360" rel="stylesheet" />
+    <script src="../../mermaid/mermaid.js?1595110360"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

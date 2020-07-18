@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rubber on BridgeScorer</title>
+    <link>/rubber.html</link>
+    <description>Recent content in Rubber on BridgeScorer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 19 May 2018 22:59:40 -0400</lastBuildDate>
+    
+	<atom:link href="/rubber/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>List</title>
+      <link>/rubber/list.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:15:40 -0400</pubDate>
+      
+      <guid>/rubber/list.html</guid>
+      <description>This shows all the past Rubber Bridge matches that have been played.
+For each match, the start and end time and all the players scores are shown, higher scores to the left. The Delete button is used to delete a match. The button in the Id column goes to the summary page for that match.
+The New button is used to start a new Rubber Bridge match. This will bring up the enter names page</description>
+    </item>
+    
+    <item>
+      <title>Names</title>
+      <link>/rubber/names.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:17:11 -0400</pubDate>
+      
+      <guid>/rubber/names.html</guid>
+      <description>Enter the players names in their corresponding position, and select the dealer for the first hand. Then hit the OK button. The Enter Hand page is then displayed.
+The Reset button clears out all the names and unselects the dealer.
+The Cancel button is used to leave this page.</description>
+    </item>
+    
+    <item>
+      <title>Enter Hand</title>
+      <link>/rubber/hand.html</link>
+      <pubDate>Sun, 20 May 2018 11:21:14 -0400</pubDate>
+      
+      <guid>/rubber/hand.html</guid>
+      <description>This page allows the scorekeeper to enter the contract that was bit for the hand, and the result of playing the hand.
+For the contract and results buttons, the color of the button has the following meaning:
+ The dark yellow   buttons indicates what should be selected next. The light yellow   buttons indicates that this still needs to be selected, but something else should be selected first.</description>
+    </item>
+    
+    <item>
+      <title>Summary</title>
+      <link>/rubber/summary.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:17:15 -0400</pubDate>
+      
+      <guid>/rubber/summary.html</guid>
+      <description>This page shows the results of the Rubber Bridge match.
+In the first table gives a simplified view of the results. Typically it is the same as it would be on paper.
+The second table show details about each hand. The last two columns are the two teams. Number prefixed with an H are honor points, numbers in parentheses are score above the line. Numbers without any adornments are scores below the line.</description>
+    </item>
+    
+  </channel>
+</rss>

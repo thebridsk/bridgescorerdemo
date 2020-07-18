@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Chicago on BridgeScorer</title>
+    <link>/chicago.html</link>
+    <description>Recent content in Chicago on BridgeScorer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 19 May 2018 22:59:40 -0400</lastBuildDate>
+    
+	<atom:link href="/chicago/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Chicago List</title>
+      <link>/chicago/list.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:15:40 -0400</pubDate>
+      
+      <guid>/chicago/list.html</guid>
+      <description>This shows all the past Chicago matches that have been played.
+For each match, the start and end time and all the players scores are shown, higher scores to the left. The Delete button is used to delete a match. The button in the Id column goes to the summary page for that match.
+The New button is used to start a new Chicago match. This will bring up the enter names page</description>
+    </item>
+    
+    <item>
+      <title>Entering a Hand</title>
+      <link>/chicago/hand.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:18:44 -0400</pubDate>
+      
+      <guid>/chicago/hand.html</guid>
+      <description>This page allows the scorekeeper to enter the contract that was bit for the hand, and the result of playing the hand.
+For the contract and results buttons, the color of the button has the following meaning:
+ The dark yellow   buttons indicates what should be selected next. The light yellow   buttons indicates that this still needs to be selected, but something else should be selected first.</description>
+    </item>
+    
+    <item>
+      <title>Summary</title>
+      <link>/chicago/summary.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:17:15 -0400</pubDate>
+      
+      <guid>/chicago/summary.html</guid>
+      <description>This page shows the summary of the match.
+In the first table, the rows are the rounds. The second table normally shows the last round played.
+In the first table, hitting the buttons in the Round column will cause that round to be displayed as the second table.
+In the second table, the buttons in the Hand column will show the Entering a Hand page for that hand. Modifications can be made to the entering a hand page at this point and if OK is hit the changes are used.</description>
+    </item>
+    
+    <item>
+      <title>Summary Fast Rotation</title>
+      <link>/chicago/summaryquintet.html</link>
+      <pubDate>Fri, 08 Jun 2018 18:17:15 -0400</pubDate>
+      
+      <guid>/chicago/summaryquintet.html</guid>
+      <description>This page shows the summary of the match.
+The table shows all the hands that have been played.
+Hitting the New Round button starts the process to play the next hand. This will show either the Selecting Names Fair or Selecting Names Simple to show how the players must switch places.</description>
+    </item>
+    
+  </channel>
+</rss>

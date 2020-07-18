@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Duplicate on BridgeScorer</title>
+    <link>/duplicate.html</link>
+    <description>Recent content in Duplicate on BridgeScorer</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 19 May 2018 12:33:17 -0400</lastBuildDate>
+    
+	<atom:link href="/duplicate/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Playing Duplicate</title>
+      <link>/duplicate/playing.html</link>
+      <pubDate>Sat, 19 May 2018 12:33:17 -0400</pubDate>
+      
+      <guid>/duplicate/playing.html</guid>
+      <description>Start Browser on Tablets The first browser to connect will show the home page.
+This page shows the URL address to use in the other browsers to connect to the server.
+The URL address can always be displayed from any browser by hitting the   icon in the top right of the page.
+Starting a New Match There are two ways to start of a new match. The first is to hit the New Duplciate button on the home page.</description>
+    </item>
+    
+    <item>
+      <title>Summary</title>
+      <link>/duplicate/summary.html</link>
+      <pubDate>Sat, 19 May 2018 22:33:43 -0400</pubDate>
+      
+      <guid>/duplicate/summary.html</guid>
+      <description>This page shows the previous matches that have been played.
+For each match the players are identified in the table that played the match. Each entry has two number, the top number is the place the team came in, the lower number is the number of Match Points the team earned in the match.
+The scoring method indicates which scoring method was used when playing the duplicate match. MP indicates Match Points, while IMP indicates International Match Points.</description>
+    </item>
+    
+    <item>
+      <title>Pair Suggestion</title>
+      <link>/duplicate/pairsuggestion.html</link>
+      <pubDate>Sat, 19 May 2018 20:27:12 -0400</pubDate>
+      
+      <guid>/duplicate/pairsuggestion.html</guid>
+      <description>From this page, suggestions for player pairing can be obtained for two table duplicate bridge.
+The list of known players is at the left with checkboxes to the left of the names. The input fields are for new players. Select and/or enter a total of eight players.
+The Never Pair tables is obtained by hitting the Never Pair button at the bottom of the page. Click a cell in the table to prevent the players from being paired.</description>
+    </item>
+    
+    <item>
+      <title>New</title>
+      <link>/duplicate/new.html</link>
+      <pubDate>Sat, 19 May 2018 20:27:12 -0400</pubDate>
+      
+      <guid>/duplicate/new.html</guid>
+      <description>From this page, new Duplicate matches can be started.
+The page give a choice of movements to use and the board set to use. Just click the button in the table to start the match. This will then display the scoreboard page of the new match.
+The Create Results Only, when checked, is used for entering a match result from a match that was not scored with the BridgeScoreKeeper. Only the team players and total points each earned are entered.</description>
+    </item>
+    
+    <item>
+      <title>Scoreboard</title>
+      <link>/duplicate/scoreboardcomplete.html</link>
+      <pubDate>Sat, 19 May 2018 20:27:20 -0400</pubDate>
+      
+      <guid>/duplicate/scoreboardcomplete.html</guid>
+      <description>This shows the current results of the duplicate match. A row in the table is a team. A column, after the third column is a board. Hitting one of the buttons with numbers in the header of the first table will show that board page.
+The Scoreboard Table will show
+ blank - if a team still needs to play the board. ✓ - if a team has played the board, and not everyone has played the board.</description>
+    </item>
+    
+    <item>
+      <title>Board</title>
+      <link>/duplicate/boardcomplete.html</link>
+      <pubDate>Sat, 19 May 2018 20:27:24 -0400</pubDate>
+      
+      <guid>/duplicate/boardcomplete.html</guid>
+      <description>This shows the completed board page, only boards that have been played by all teams will show a score. If not all teams have played the board, then there will be checkmarks for the teams that have played.
+This shows a board that has been played by all teams: This shows a board that has been played by only two teams: The dark yellow   board buttons indicate that the board has been played by all players.</description>
+    </item>
+    
+    <item>
+      <title>Table</title>
+      <link>/duplicate/table.html</link>
+      <pubDate>Sun, 20 May 2018 10:46:59 -0400</pubDate>
+      
+      <guid>/duplicate/table.html</guid>
+      <description>The table shows the round, the north-south team, the east-west team, and the boards that should be played in the rounds.
+Once the player names have been entered in the first round, the player names, in addition to the team number, will show in the NS and EW columns.
+If none of the boards in the round have been played at this table, then hitting any of the light yellow   buttons will then show the enter scorekeeper page on the first round, and select scorekeeper page in later rounds.</description>
+    </item>
+    
+    <item>
+      <title>Enter Scorekeeper</title>
+      <link>/duplicate/enterscorekeepername.html</link>
+      <pubDate>Sun, 20 May 2018 10:54:18 -0400</pubDate>
+      
+      <guid>/duplicate/enterscorekeepername.html</guid>
+      <description>In the input selection box, either type in the scorekeeper&amp;rsquo;s name or select the name from the box&amp;rsquo;s selection list. The selection list appears when you start typing, or hit the triangle on the right of the selection box.
+Then select the position the scorekeeper has at the table.
+Hit OK when they are correct. This will then show the enter other names page.</description>
+    </item>
+    
+    <item>
+      <title>Enter Other Names</title>
+      <link>/duplicate/enterothernames.html</link>
+      <pubDate>Sun, 20 May 2018 11:13:40 -0400</pubDate>
+      
+      <guid>/duplicate/enterothernames.html</guid>
+      <description>In the input selection boxes, either type in the player&amp;rsquo;s name at that position or select the name from the box&amp;rsquo;s selection list. The selection list appears when you start typing, or hit the triangle on the right of the selection box.
+Hit OK when they are correct. This will either show the scoreboard page for table if the round button was hit or the enter hand page if a board button was hit.</description>
+    </item>
+    
+    <item>
+      <title>Select Scorekeeper</title>
+      <link>/duplicate/selectscorekeepername.html</link>
+      <pubDate>Sun, 20 May 2018 10:54:30 -0400</pubDate>
+      
+      <guid>/duplicate/selectscorekeepername.html</guid>
+      <description>Select the scorekeeper for the round. Then select the position the scorekeeper has at the table.
+Hit OK when they are correct.</description>
+    </item>
+    
+    <item>
+      <title>Select Other Names</title>
+      <link>/duplicate/selectothernames.html</link>
+      <pubDate>Sun, 20 May 2018 11:14:05 -0400</pubDate>
+      
+      <guid>/duplicate/selectothernames.html</guid>
+      <description>The scorekeeper is at the bottom, the partner of the scorekeeper is at the top. The players to the left and right of the scorekeeper are listed. The players may need to be swapped by hitting one of the Swap ⇄ or Swap ⇆ buttons, or having the players switch places.
+Hit OK when all the players are correct. This will either show the scoreboard page for table if the round button was hit or the enter hand page if a board was hit.</description>
+    </item>
+    
+    <item>
+      <title>Enter Hand</title>
+      <link>/duplicate/enterhand.html</link>
+      <pubDate>Sun, 20 May 2018 11:21:14 -0400</pubDate>
+      
+      <guid>/duplicate/enterhand.html</guid>
+      <description>This page allows the scorekeeper to enter the contract that was bid for the hand, and the result of playing the hand.
+For the contract and results buttons, the color of the button has the following meaning:
+ The dark yellow   buttons indicates what should be selected next. The light yellow   buttons indicates that this still needs to be selected, but something else should be selected first.</description>
+    </item>
+    
+    <item>
+      <title>Scoreboard From Table</title>
+      <link>/duplicate/scoreboardfromtable.html</link>
+      <pubDate>Sun, 20 May 2018 11:21:01 -0400</pubDate>
+      
+      <guid>/duplicate/scoreboardfromtable.html</guid>
+      <description>Shows the scoreboard from a table.
+For two table duplicate matches, the scores for a board are only shown if all teams have played the board. Otherwise a checkmark, ✓, is shown for teams that have played the board.
+For more than 2 tables, the scores for a board are only shown if all players currently at the table have played the board. Otherwise a checkmark, ✓, is shown for teams that have played the board.</description>
+    </item>
+    
+    <item>
+      <title>Board From Table</title>
+      <link>/duplicate/boardfromtable.html</link>
+      <pubDate>Sun, 20 May 2018 11:21:01 -0400</pubDate>
+      
+      <guid>/duplicate/boardfromtable.html</guid>
+      <description>Shows the scores of a board from a table in a round.
+For two table duplicate matches, the scores for a board are only shown if all teams have played the board. Otherwise a checkmark, ✓, is shown for teams that have played the board.
+For more than 2 tables, the scores for a board are only shown if all players currently at the table have played the board. Otherwise a checkmark, ✓, is shown for teams that have played the board.</description>
+    </item>
+    
+    <item>
+      <title>Final Scoreboard</title>
+      <link>/duplicate/finalscoreboard.html</link>
+      <pubDate>Sun, 20 May 2018 12:46:19 -0400</pubDate>
+      
+      <guid>/duplicate/finalscoreboard.html</guid>
+      <description>Once the duplicate match has been finished, all hands played, a Details button appears. This shows a table on the page showing how many times a team was declarer or defender and for each how many times the contract was made or went down.
+See the help for the scoreboard page of a complete description of the other tables that are shown on the page.</description>
+    </item>
+    
+    <item>
+      <title>Director</title>
+      <link>/duplicate/director.html</link>
+      <pubDate>Tue, 19 Mar 2019 10:39:00 -0400</pubDate>
+      
+      <guid>/duplicate/director.html</guid>
+      <description>The director pages does not hide any information. These pages are used by the director to look at disputes and to fix scores that were improperly entered.
+The director pages include the scoreboard page, board pages, and hand pages.
+To get to the director pages, click the main menu button, three horizontal bars in left of blue app bar, then select Director&#39;s Scoreboard. This brings up the director&amp;rsquo;s scoreboard, from there you can navigate to the other pages.</description>
+    </item>
+    
+    <item>
+      <title>Statistics</title>
+      <link>/duplicate/statistics.html</link>
+      <pubDate>Tue, 19 Mar 2019 10:39:00 -0400</pubDate>
+      
+      <guid>/duplicate/statistics.html</guid>
+      <description>This page shows various statistics from the matches that have been played.
+This page is displayed by going to the main menu of the scoreboard page and selecting Statistics.
+Show Pairs This shows a table where the rows and columns are the known players. The size of the bar in a cell indicates how many matches the pair played, while the color indicates the result, red indicates below average, green above average, the lighter the color the closer to average.</description>
+    </item>
+    
+  </channel>
+</rss>
